@@ -5,21 +5,29 @@
     <title>web2 js</title>
     <meta charset="utf-8">
     <script src="Designer.js"></script>
+    <script src="fetch.js"></script>
+    <script>
+        if(location.hash) {
+            var hash = location.hash.substr(2).trim(); // #! 제거
+            var fetchPath = '/contents/' + hash + '.txt';
+            fetchAPI(fetchPath);
+        } else {
+            fetchAPI('/contents/index.txt');
+        }
+    </script>
 </head>
 
 <body style="background-color: white;">
-    <h1><a href="index.html">web</a></h1>
+    <h1><a href="#!index" onclick="fetchAPI('/contents/index.txt')">web</a></h1>
+    <input type="button" value="night" onclick="nightDayHandler(this)">
 
     <ol>
-        <li><a href="html.html">html</a></li>
-        <li><a href="css.html">css</a></li>
-        <li><input type="button" value="night" onclick="nightDayHandler(this)"></li>
-        <li><a href="js.html">js</a></li>
+        <li><a href="#!html" onclick="fetchAPI('/contents/html.txt')">html</a></li>
+        <li><a href="#!css" onclick="fetchAPI('/contents/css.txt')">css</a></li>
+        <li><a href="#!javascript" onclick="fetchAPI('/contents/javascript.txt')">javascript</a></li>
     </ol>
 
-    <h2>web2 js - index</h2>
-
-    <p>web2 js - index</p>
+    <article></article>
 </body>
 
 </html>
