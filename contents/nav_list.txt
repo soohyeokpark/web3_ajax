@@ -1,0 +1,3 @@
+<li><a href="#!html" onclick="fetchAPI('/contents/html.txt', 'article')">html</a></li>
+<li><a href="#!css" onclick="fetchAPI('/contents/css.txt', 'article')">css</a></li>
+<li><a href="#!javascript" onclick="fetchAPI('/contents/javascript.txt', 'article')">javascript</a></li>

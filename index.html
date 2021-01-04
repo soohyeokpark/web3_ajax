@@ -4,27 +4,28 @@
 <head>
     <title>web2 js</title>
     <meta charset="utf-8">
-    <script src="Designer.js"></script>
-    <script src="fetch.js"></script>
+    <script src="Designer.js"></script> <!--my func-->
+    <script src="fetch.js"></script> <!--my func-->
+    <script src="fetch/fetch.js"></script> <!--polyfill-->
     <script>
         if(location.hash) {
             var hash = location.hash.substr(2).trim(); // #! 제거
             var fetchPath = '/contents/' + hash + '.txt';
-            fetchAPI(fetchPath);
+            fetchAPI(fetchPath, 'article');
         } else {
-            fetchAPI('/contents/index.txt');
+            fetchAPI('/contents/index.txt', 'article');
         }
     </script>
 </head>
 
 <body style="background-color: white;">
-    <h1><a href="#!index" onclick="fetchAPI('/contents/index.txt')">web</a></h1>
+    <h1><a href="#!index" onclick="fetchAPI('/contents/index.txt', 'article')">web</a></h1>
     <input type="button" value="night" onclick="nightDayHandler(this)">
 
-    <ol>
-        <li><a href="#!html" onclick="fetchAPI('/contents/html.txt')">html</a></li>
-        <li><a href="#!css" onclick="fetchAPI('/contents/css.txt')">css</a></li>
-        <li><a href="#!javascript" onclick="fetchAPI('/contents/javascript.txt')">javascript</a></li>
+    <ol id="nav">
+        <script>
+            fetchAPI('/contents/nav_list.txt', '#nav');
+        </script>
     </ol>
 
     <article></article>
