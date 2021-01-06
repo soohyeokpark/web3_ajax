@@ -4,13 +4,10 @@
 <head>
     <title>web2 js</title>
     <meta charset="utf-8">
-    <script src="Designer.js"></script> <!--my func-->
-    <script src="fetch.js"></script> <!--my func-->
-
-    <script src="fetch/fetch.js"></script> <!--polyfill-->
-    
+    <script src="Designer.js"></script>
+    <script src="fetch.js"></script>
     <script>
-        if(location.hash) {
+        if (location.hash) {
             var hash = location.hash.substr(2).trim(); // #! 제거
             var fetchPath = '/contents/' + hash + '.txt';
             fetchAPI(fetchPath, 'article');
@@ -18,11 +15,80 @@
             fetchAPI('/contents/index.txt', 'article');
         }
     </script>
+
+    <!--
+        1 fb sdk 로드
+        2 fb sdk init
+        3 login
+        4 logout
+        5 login/out status
+        6 api call
+    -->
+
+    <!--1 fb sdk 로드-->
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
+    <!--2 fb sdk init-->
+    <script>
+        window.fbAsyncInit = function () {
+            FB.init({
+                appId: '855425231942954',
+                cookie: true,                     // Enable cookies to allow the server to access the session.
+                xfbml: true,                     // Parse social plugins on this webpage.
+                version: 'v9.0'           // Use this Graph API version for this call.
+            });
+
+            FB.getLoginStatus(loginCheck);
+        };
+
+        // 5 login/out status
+        var loginCheck = function (response) {   // Called after the JS SDK has been initialized.
+            if (response.status == 'connected') {
+                document.querySelector('#fb_button').value = 'logout';
+
+                // 6 api call
+                FB.api('/me', function(res) {
+                    if(res.error == undefined && res.name != '') {
+                        document.querySelector('#fb_name').innerHTML = res.name;
+                    }
+                });
+            } else {
+                document.querySelector('#fb_button').value = 'login';
+                document.querySelector('#fb_name').innerHTML = '';
+            }
+            //console.log(response);
+            //statusChangeCallback(response);        // Returns the login status.
+        }
+    </script>
+
 </head>
 
 <body style="background-color: white;">
+
+    <!--3 login-->
+    <!--4 logout-->
+    <input type="button" id="fb_button" value="loading" onclick="
+        if(this.value == 'login') {
+            FB.login(function(res){
+                loginCheck(res);
+            });
+        } else {
+            FB.logout(function(res){
+                loginCheck(res);
+        });
+        }
+    ">
+    <div id="fb_name" style="display: inline;"></div>
+
+    <!--<div id="fb-root"></div>
+     <script async defer crossorigin="anonymous"
+        src="https://connect.facebook.net/ko_KR/sdk.js#xfbml=1&version=v9.0&appId=855425231942954&autoLogAppEvents=1"
+        nonce="4EqfqmRk"></script> -->
+
     <h1><a href="#!index" onclick="fetchAPI('/contents/index.txt', 'article')">web</a></h1>
     <input type="button" value="night" onclick="nightDayHandler(this)">
+
+    <!-- <div class="fb-login-button" data-width="" data-size="large" data-button-type="continue_with" data-layout="default"
+        data-auto-logout-link="true" data-use-continue-as="true"></div> -->
 
     <ol id="nav">
         <script>
